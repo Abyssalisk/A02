@@ -76,7 +76,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	 * @return
 	 */
 	public Item sample() {
-		 
+		if (n == 0) {
+			throw new NoSuchElementException();
+		}
+		
+		int random = StdRandom.uniform(n);
+		return a[random]; 
 	}
 	
 	private boolean isStorageFull() {
