@@ -1,6 +1,9 @@
 package a02;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 	private Item[] a;
@@ -10,7 +13,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	 * construct an empty randomized queue
 	 */
 	public RandomizedQueue() {
-		Item[] a = (Item[]) new Object[0];
+		Item[] a = (Item[]) new Object[2];
 		n = 0;
 	}
 	
@@ -50,7 +53,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	 * @return
 	 */
 	public Item dequeue() {
+		if (n == 0) {
+			throw new NoSuchElementException();
+		}
 		
+		int random = StdRandom.uniform(n);
+		Item returnItem = a[random];
+		n--;
+		
+		a[random] = a[n];
+		a[n] = null;
+		
+		if(isStorageOversized()) {
+			halveSize();
+		}
+		
+		return returnItem;
 	}
 	
 	/**
@@ -67,6 +85,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 	private void doubleSize() {
 		resize(a.length * 2);
+	}
+	
+	private boolean isStorageOversized() {
+		return a.length > 2 && n <= a.length / 4;
+	}
+	
+	private void halveSize() {
+		resize(a.length / 2);
 	}
 	
 	private void resize(int newSize) {
