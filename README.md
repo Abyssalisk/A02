@@ -1,2 +1,2 @@
 # A02
-Algorithms and Data Structures Second Assignment
+Algorithms and Data Structures - Randomized Queue
